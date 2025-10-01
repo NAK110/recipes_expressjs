@@ -1,0 +1,14 @@
+GET {{api_url}}/recipes
+Content-Type: application/json
+
+###
+POST {{api_url}}/recipes
+Content-Type: application/json
+
+###
+PUT {{api_url}}/recipes/1
+Content-Type: application/json
+
+###
+DELETE {{api_url}}/recipes/1
+Content-Type: application/json
