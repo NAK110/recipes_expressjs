@@ -2,13 +2,29 @@ GET {{api_url}}/recipes
 Content-Type: application/json
 
 ###
+GET {{api_url}}/recipes/11
+Content-Type: application/json
+
+###
 POST {{api_url}}/recipes
 Content-Type: application/json
+
+{
+    "name": "Fried Rice",
+    "ingredients": "Rice, Egg, Carrot, Peas, Soy Sauce",
+    "instructions": "Cook rice. Scramble eggs. Mix all ingredients in a pan and stir-fry with soy sauce."
+}
 
 ###
 PUT {{api_url}}/recipes/1
 Content-Type: application/json
 
+{
+    "name": "Fried Rice",
+    "ingredients": "Rice, Egg2, Carrot, Peas, Soy Sauce",
+    "instructions": "Cook rice. Scramble eggs. Mix all ingredients in a pan and stir-fry with soy sauce."
+}
+
 ###
-DELETE {{api_url}}/recipes/1
+DELETE {{api_url}}/recipes/11
 Content-Type: application/json

@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const { createRecipe, getAllRecipe, updateRecipe, deleteRecipe } = require('../controllers/RecipeController');
+import express from 'express';
+import { getAllRecipe, createRecipe, updateRecipe, deleteRecipe, getRecipeById } from '../controllers/RecipeController.js';
 
+
+const router = express.Router();
 // console.log('Recipe router loaded!'); 
 
 router.route('/recipes').get(getAllRecipe).post(createRecipe);
 
-router.route('/recipes/:id').put(updateRecipe).delete(deleteRecipe);
+router.route('/recipes/:id').get(getRecipeById).put(updateRecipe).delete(deleteRecipe);
 
-module.exports = router;
+export default router
