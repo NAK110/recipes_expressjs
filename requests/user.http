@@ -1,0 +1,8 @@
+POST  {{api_url}}/user/user
+Content-Type: application/json
+Authorization: Bearer {{user_token}}
+
+###
+POST  {{api_url}}/user/admin
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}

@@ -1,0 +1,17 @@
+POST {{api_url}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "Mem",
+    "password": "password",
+    "role": "admin"
+}
+
+###
+POST {{api_url}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "Jack",
+    "password": "password"
+}

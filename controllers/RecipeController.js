@@ -2,12 +2,13 @@ import AsyncHandler from "express-async-handler";
 import Recipe from "../models/Recipe.js";
 
 export const getAllRecipe = AsyncHandler(async (req, res) => {
-    try {
-        const recipes = await Recipe.getAll();
-        res.status(200).json(recipes);
-    } catch (err) {
-        res.json({ message: err.message });
+    const recipes = await Recipe.getAll();
+
+    if (!recipes) {
+        res.status(404);
+        throw new Error('No recipes found');
     }
+    res.status(200).json(recipes);
 })
 
 export const getRecipeById = AsyncHandler(async (req, res) => {
