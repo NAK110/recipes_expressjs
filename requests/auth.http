@@ -2,9 +2,9 @@ POST {{api_url}}/auth/register
 Content-Type: application/json
 
 {
-    "username": "Mem",
-    "password": "password",
-    "role": "admin"
+    "email": "nak110@gmail.com",
+    "username": "nak10",
+    "password": "password"
 }
 
 ###
@@ -12,6 +12,6 @@ POST {{api_url}}/auth/login
 Content-Type: application/json
 
 {
-    "username": "Jack",
+    "username": "nak110",
     "password": "password"
 }

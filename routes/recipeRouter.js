@@ -6,7 +6,7 @@ import { requireRole, verifyToken } from '../middleware/AuthMiddleware.js';
 const router = express.Router();
 // console.log('Recipe router loaded!'); 
 
-router.route('/recipes').get(verifyToken, getAllRecipe).post(verifyToken, requireRole('admin'), createRecipe);
+router.route('/recipes').get(getAllRecipe).post(verifyToken, requireRole('admin'), createRecipe);
 
 router.route('/recipes/:id').get(verifyToken, getRecipeById).put(verifyToken, requireRole('admin'), updateRecipe).delete(verifyToken, requireRole('admin'), deleteRecipe);
 

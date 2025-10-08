@@ -18,3 +18,13 @@ export const admin = AsyncHandler(async (req, res) => {
         user: req.user
     })
 })
+
+export const getAllUser = AsyncHandler(async (req, res) => {
+    const users = await User.getAllUser();
+
+    if (!users) {
+        res.status(404);
+        throw new Error('No recipes found');
+    }
+    res.status(200).json(users);
+})

@@ -19,7 +19,7 @@ export const getRecipeById = AsyncHandler(async (req, res) => {
         throw new Error('Recipe not found');
     }
 
-    res.status(200).json(recipe);
+    res.status(200).json({recipe: recipes});
 });
 
 export const createRecipe = AsyncHandler(async (req, res) => {
@@ -29,7 +29,7 @@ export const createRecipe = AsyncHandler(async (req, res) => {
         throw new Error('Please add all fields');
     }
     const recipe = await Recipe.create(req.body)
-    res.status(201).json({ message: 'Added recipe successful' });
+    res.status(201).json({ message: 'Added recipe successful', recipe: recipe });
 })
 
 export const updateRecipe = AsyncHandler(async (req, res) => {

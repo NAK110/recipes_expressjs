@@ -7,8 +7,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const register = AsyncHandler(async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
         res.status(400);
         throw new Error('Please add all fields');
     }
@@ -23,6 +23,7 @@ export const register = AsyncHandler(async (req, res) => {
             user: {
                 id: user._id,
                 username: user.username,
+                email: user.email,
                 role: user.role
             }
         });
@@ -36,8 +37,7 @@ export const register = AsyncHandler(async (req, res) => {
 
 export const login = AsyncHandler(async (req, res) => {
     const { username, password } = req.body
-    
-    //console.log('Login attempt:', { username, password });
+
     if (!username || !password) {
         res.status(400);
         throw new Error('Please add all fields');
@@ -68,6 +68,7 @@ export const login = AsyncHandler(async (req, res) => {
         user: {
             id: user.id,
             username: user.username,
+            email: user.email,
             role: user.role
         } 
     })
