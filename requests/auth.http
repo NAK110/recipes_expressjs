@@ -3,8 +3,9 @@ Content-Type: application/json
 
 {
     "email": "nak110@gmail.com",
-    "username": "nak10",
-    "password": "password"
+    "username": "nak110",
+    "password": "password",
+    "role": "admin"
 }
 
 ###

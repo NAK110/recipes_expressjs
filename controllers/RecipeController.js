@@ -19,7 +19,7 @@ export const getRecipeById = AsyncHandler(async (req, res) => {
         throw new Error('Recipe not found');
     }
 
-    res.status(200).json({recipe: recipes});
+    res.status(200).json({recipe});
 });
 
 export const createRecipe = AsyncHandler(async (req, res) => {
@@ -46,7 +46,6 @@ export const updateRecipe = AsyncHandler(async (req, res) => {
 });
 
 export const deleteRecipe = AsyncHandler(async (req, res) => {
-    // res.status(200).json({ message: `Delete successful for recipe ${req.params.id}` });
     const deletedRecipe = await Recipe.delete(req.params.id);
     if (!deletedRecipe) {
         res.status(404);
