@@ -1,10 +1,10 @@
 import express from 'express';
 import errorHandler from './middleware/errorHandler.js';
 import dotenv from 'dotenv';
-import router from './routes/recipeRouter.js';
 import authRouter from './routes/authRouter.js';
 import userRoute from './routes/userRouter.js';
 import cors from 'cors';
+import recipeRouter from './routes/recipeRouter.js';
 dotenv.config();
 
 // connectDB();
@@ -19,9 +19,9 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.use(express.json());
-app.use('/api', router);
+app.use('/api/recipes', recipeRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/user', userRoute);
+app.use('/api/users', userRoute);
 
 app.use(errorHandler)
 app.listen(port, () => {

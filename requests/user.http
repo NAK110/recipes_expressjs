@@ -1,13 +1,48 @@
-POST  {{api_url}}/user/user
+//get current user
+POST  {{api_url}}/user/user 
 Content-Type: application/json
 Authorization: Bearer {{user_token}}
 
+//get current admin
 ###
 POST  {{api_url}}/user/admin
 Content-Type: application/json
 Authorization: Bearer {{admin_token}}
 
+//get all users (admin only)
 ###
-POST  {{api_url}}/user/users
+GET  {{api_url}}/user/users
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+//create user (admin only)
+###
+POST {{api_url}}/user/users
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "username": "qiqi",
+    "email": "qiqi@gmail.com",
+    "password": "qiqi666",
+    "role": "user"
+}
+
+// update user info (admin only)
+###
+PUT {{api_url}}/user/users/10
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "username": "Cyrene123",
+    "email": "cyrene123@gmail.com",
+    "password": "password",
+    "role": "user"
+}
+
+// delete user (admin only)
+###
+DELETE {{api_url}}/user/users/9
 Content-Type: application/json
 Authorization: Bearer {{admin_token}}

@@ -2,10 +2,9 @@ POST {{api_url}}/auth/register
 Content-Type: application/json
 
 {
-    "email": "nak110@gmail.com",
-    "username": "nak110",
-    "password": "password",
-    "role": "admin"
+    "email": "william@gmail.com",
+    "username": "william678",
+    "password": "password"
 }
 
 ###
