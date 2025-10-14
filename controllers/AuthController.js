@@ -13,8 +13,6 @@ export const register = AsyncHandler(async (req, res) => {
         throw new Error('Please add all fields');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    req.body.password = hashedPassword;
     try {
         const user = await User.create(req.body);
 
