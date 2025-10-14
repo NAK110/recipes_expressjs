@@ -1,1 +1,1 @@
-web: npm run build && npm run migrate:fresh && npm run seed && npm start
+web: npm run migrate:fresh && npm run seed && npm start
