@@ -49,6 +49,9 @@ export default{
     },
     migrations: {
       directory: './database/migrations'
+    },
+    seeds: {
+      directory: './database/seeds'
     }
   }
 };
