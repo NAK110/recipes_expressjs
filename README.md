@@ -51,7 +51,7 @@ This repository contains the backend for a recipe management application, built 
 3.  **Set up environment variables:**
     Create a `.env` file in the root of the project and add your configuration.
     ```env
-    PORT=3001
+    PORT=3000
     NODE_ENV=development
     DB_HOST=localhost
     DB_USER=your_db_user
@@ -86,7 +86,7 @@ This repository contains the backend for a recipe management application, built 
         ```bash
         npm start
         ```
-    The server will be running on the port specified in your `.env` file (default is `3001`).
+    The server will be running on the port specified in your `.env` file (default is `3000`).
 
 ## API Endpoints
 
