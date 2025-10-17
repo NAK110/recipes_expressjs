@@ -1,39 +1,75 @@
-import db from "../config/testDB.js";
+import db from "../config/database.js";
 
 class Recipe {
+    static get tableName() {
+        return 'recipes';
+    }
+
     static async getAll() {
-        const [rows] = await db.query('SELECT * FROM recipes');
-        return rows;
+        return await db(this.tableName).select('*');
     }
 
     static async getById(id) {
-        const [rows] = await db.query('SELECT * FROM recipes WHERE id = ?', [id]);
-        return rows[0];
+        return await db(this.tableName).where('id', id).first();
     }
 
     static async create(data) {
         const { name, ingredients, instructions } = data;
-        const [result] = await db.query(
-            'INSERT INTO recipes (name, ingredients, instructions) VALUES (?, ?, ?)',
-            [name, ingredients, instructions]
-        );
-        return { id: result.insertId, ...data };
+
+        // Convert arrays to JSON strings for storage if they're arrays
+        const ingredientsStr = Array.isArray(ingredients) ? JSON.stringify(ingredients) : ingredients;
+        const instructionsStr = Array.isArray(instructions) ? JSON.stringify(instructions) : instructions;
+
+        const [id] = await db(this.tableName).insert({
+            name,
+            ingredients: ingredientsStr,
+            instructions: instructionsStr
+        });
+
+        return { id, name, ingredients, instructions };
     }
 
     static async update(id, recipeData) {
         const { name, ingredients, instructions } = recipeData;
-        const [result] = await db.query(
-            'UPDATE recipes SET name = ?, ingredients = ?, instructions = ? WHERE id = ?',
-            [name, ingredients, instructions, id]
-        );
-        return result.affectedRows > 0;
+
+        // Convert arrays to JSON strings for storage if they're arrays
+        const ingredientsStr = Array.isArray(ingredients) ? JSON.stringify(ingredients) : ingredients;
+        const instructionsStr = Array.isArray(instructions) ? JSON.stringify(instructions) : instructions;
+
+        const affectedRows = await db(this.tableName)
+            .where('id', id)
+            .update({
+                name,
+                ingredients: ingredientsStr,
+                instructions: instructionsStr
+            });
+
+        return affectedRows > 0;
     }
 
     static async delete(id) {
-        const [result] = await db.query('DELETE FROM recipes WHERE id = ?', [id]);
-        return result.affectedRows > 0;
+        const affectedRows = await db(this.tableName).where('id', id).del();
+        return affectedRows > 0;
     }
 
+    // Helper method to parse JSON fields when retrieving
+    static parseJsonFields(recipe) {
+        if (!recipe) return recipe;
+
+        try {
+            recipe.ingredients = JSON.parse(recipe.ingredients);
+        } catch (e) {
+            // If it's not JSON, keep as string
+        }
+
+        try {
+            recipe.instructions = JSON.parse(recipe.instructions);
+        } catch (e) {
+            // If it's not JSON, keep as string
+        }
+
+        return recipe;
+    }
 }
 
 export default Recipe;

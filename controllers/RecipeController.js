@@ -4,11 +4,15 @@ import Recipe from "../models/Recipe.js";
 export const getAllRecipe = AsyncHandler(async (req, res) => {
     const recipes = await Recipe.getAll();
 
-    if (!recipes) {
+    if (!recipes || recipes.length === 0) {
         res.status(404);
         throw new Error('No recipes found');
     }
-    res.status(200).json(recipes);
+
+    // Parse JSON fields for each recipe
+    const parsedRecipes = recipes.map(recipe => Recipe.parseJsonFields(recipe));
+
+    res.status(200).json(parsedRecipes);
 })
 
 export const getRecipeById = AsyncHandler(async (req, res) => {
@@ -19,7 +23,10 @@ export const getRecipeById = AsyncHandler(async (req, res) => {
         throw new Error('Recipe not found');
     }
 
-    res.status(200).json({recipe});
+    // Parse JSON fields
+    const parsedRecipe = Recipe.parseJsonFields(recipe);
+
+    res.status(200).json({ recipe: parsedRecipe });
 });
 
 export const createRecipe = AsyncHandler(async (req, res) => {

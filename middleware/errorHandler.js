@@ -1,48 +1,30 @@
+// middleware/errorHandler.js
 import { constants } from '../constants.js';
+
 const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode || 500;
-    // const message = err.message || 'Internal Server Error'
-    switch (statusCode) {
-        case constants.NOT_FOUND:
-            res.json({
-                title: 'Not Found',
-                message: err.message,
-                stackTrace: err.stack,
-            })
-            break;
-        case constants.VALIDATION_ERROR:
-            res.json({
-                title: 'Validation Failed',
-                message: err.message,
-                stackTrace: err.stack
-            })
-            break;
-        case constants.SERVER_ERROR:
-            res.json({
-                title: 'Server Error',
-                message: err.message,
-                stackTrace: err.stack
-            })
-            break;
-        case constants.UNAUTHORIZED:
-            res.json({
-                title: 'Unauthorized',
-                message: err.message,
-                stackTrace: err.stack
-            })
-            break;
-        case constants.FORBIDDEN:
-            res.json({
-                title: 'Forbidden',
-                message: err.message,
-                stackTrace: err.stack
-            })
-            break;
-        default:
-            console.log('No Error, All Good');
-            break;
 
-    }
-}
+    const errorResponse = {
+        title: getErrorTitle(statusCode),
+        message: err.message || 'Internal Server Error',
+        ...(process.env.NODE_ENV === 'development' && { stackTrace: err.stack })
+    };
 
-export default errorHandler
+    // Log error for monitoring
+    console.error(`Error ${statusCode}:`, err.message);
+
+    res.status(statusCode).json(errorResponse);
+};
+
+const getErrorTitle = (statusCode) => {
+    const titles = {
+        [constants.NOT_FOUND]: 'Not Found',
+        [constants.VALIDATION_ERROR]: 'Validation Failed',
+        [constants.UNAUTHORIZED]: 'Unauthorized',
+        [constants.FORBIDDEN]: 'Forbidden',
+        [constants.SERVER_ERROR]: 'Server Error'
+    };
+    return titles[statusCode] || 'Error';
+};
+
+export default errorHandler;

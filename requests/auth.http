@@ -4,7 +4,8 @@ Content-Type: application/json
 {
     "email": "jack123@gmail.com",
     "username": "jack123",
-    "password": "password"
+    "password": "password",
+
 }
 
 ###
@@ -12,6 +13,6 @@ POST {{api_url}}/auth/login
 Content-Type: application/json
 
 {
-    "username": "jack123",
+    "username": "nak110",
     "password": "password"
 }

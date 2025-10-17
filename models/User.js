@@ -1,21 +1,21 @@
-import db from "../config/testDB.js";
+import db from "../config/database.js";
 import bcrypt from "bcrypt";
 
 class User {
+    static get tableName() {
+        return 'users';
+    }
+
     static async getAllUser() {
-        const [rows] = await db.query('SELECT * FROM users WHERE role = ?', ['user']);
-        return rows;
+        return await db(this.tableName).where('role', 'user').select('*');
     }
 
     static async findUsername(username) {
-        const [rows] = await db.query('SELECT * FROM users WHERE username = ?', [username])
-        return rows[0]
+        return await db(this.tableName).where('username', username).first();
     }
 
-
     static async getUserById(id) {
-        const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
-        return rows[0];
+        return await db(this.tableName).where('id', id).first();
     }
 
     static async create(userData) {
@@ -23,43 +23,43 @@ class User {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const [result] = await db.query(
-            'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)',
-            [username, email, hashedPassword, role]
-        );
+        const [id] = await db(this.tableName).insert({
+            username,
+            email,
+            password: hashedPassword,
+            role
+        });
 
-        return { id: result.insertId, username, email, role };
+        return { id, username, email, role };
     }
-
 
     static async update(id, userData) {
-        const updates = [];
-        const values = [];
+        const updateData = { ...userData };
 
-        for (const [key, value] of Object.entries(userData)) {
-            if (value !== undefined) {
-                if (key === 'password') {
-                    const hashedPassword = await bcrypt.hash(value, 10);
-                    updates.push(`${key} = ?`);
-                    values.push(hashedPassword);
-                } else {
-                    updates.push(`${key} = ?`);
-                    values.push(value);
-                }
-            }
+        // Hash password if it's being updated
+        if (updateData.password) {
+            updateData.password = await bcrypt.hash(updateData.password, 10);
         }
-        if (updates.length === 0) return false;
 
-        values.push(id);
+        // Remove undefined values
+        Object.keys(updateData).forEach(key => {
+            if (updateData[key] === undefined) {
+                delete updateData[key];
+            }
+        });
 
-        const query = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
-        const [result] = await db.query(query, values);
+        if (Object.keys(updateData).length === 0) return false;
 
-        return result.affectedRows > 0;
+        const affectedRows = await db(this.tableName)
+            .where('id', id)
+            .update(updateData);
+
+        return affectedRows > 0;
     }
+
     static async delete(id) {
-        const [result] = await db.query('DELETE FROM users WHERE id = ?', [id]);
-        return result.affectedRows > 0;
+        const affectedRows = await db(this.tableName).where('id', id).del();
+        return affectedRows > 0;
     }
 }
 
